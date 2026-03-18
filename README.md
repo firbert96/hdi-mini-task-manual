@@ -4,6 +4,8 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 using [Angular Material](https://material.angular.io/) version 21.2.2.
 using tailwindcss version 3.3.3.
 
+this project made by hand.
+
 ## Install for Project
 - node version 24 lts
 - npm version 11
