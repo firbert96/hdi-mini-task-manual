@@ -1,29 +1,50 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-  @for (col of columns; track col.key) {
-    <ng-container [matColumnDef]="col.key">
-      <th mat-header-cell *matHeaderCellDef [style.text-align]="col.align">{{ col.label }}</th>
-      @if (col.key === 'no') {
-        <td mat-cell *matCellDef="let row; let i = index" [style.text-align]="col.align">
-          {{ i + 1 }}
-        </td>
+<!-- Filter -->
+
+<!-- List -->
+<div class="overflow-x-auto rounded-lg shadow ring-1 ring-black/5">
+  <table class="min-w-full divide-y divide-gray-200 bg-white text-sm">
+    <thead class="bg-gray-50">
+      <tr>
+        @for (col of columns; track col.key) {
+          <th
+            class="px-4 py-3 font-semibold text-gray-600 uppercase tracking-wider text-xs"
+            [style.text-align]="col.align"
+            [class.cursor-pointer]="col.key !== 'no'"
+            (click)="col.key !== 'no' && sort(col.key)">
+            {{ col.label }}
+            @if (sortKey === col.key) {
+              <span class="material-icons text-sm align-middle">
+                {{ sortDir === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+              </span>
+            }
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-100">
+      @for (row of data; track row.id; let i = $index) {
+        <tr class="hover:bg-gray-50 transition-colors">
+          @for (col of columns; track col.key) {
+            @if (col.key === 'no') {
+              <td class="px-4 py-3 text-gray-500" [style.text-align]="col.align">{{ i + 1 }}</td>
+            } @else if (col.key === 'status') {
+              <td class="px-4 py-3" [style.text-align]="col.align">
+                <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ring-1"
+                  [ngClass]="{
+                    'bg-green-100 text-green-700 ring-green-600/10': row.status === 'paid',
+                    'bg-red-100 text-red-700 ring-red-600/10': row.status === 'cancelled',
+                    'bg-yellow-50 text-yellow-600 ring-yellow-500/10': row.status === 'pending',
+                    'bg-gray-50 text-gray-600 ring-gray-500/10': row.status === 'refunded'
+                  }">
+                  {{ row[col.key] | titlecase }}
+                </span>
+              </td>
+            } @else {
+              <td class="px-4 py-3 text-gray-700" [style.text-align]="col.align">{{ $any(row)[col.key] }}</td>
+            }
+          }
+        </tr>
       }
-      @else if (col.key === 'status') {
-        <td mat-cell *matCellDef="let row" [style.text-align]="col.align">
-          <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ring-1" [ngClass]="{
-              'bg-green-100 text-green-700 ring-green-600/10': row.status === 'paid',
-              'bg-red-100 text-red-700 ring-red-600/10': row.status === 'cancelled',
-              'bg-yellow-50 text-yellow-600 ring-yellow-500/10': row.status === 'pending',
-              'bg-gray-50 text-gray-600 ring-gray-500/10': row.status === 'refunded'
-            }">
-            {{ row[col.key] | titlecase }}
-          </span>
-        </td>
-      }
-      @else {
-        <td mat-cell *matCellDef="let row" [style.text-align]="col.align">{{ row[col.key]  }}</td>
-      }
-    </ng-container>
-  }
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+    </tbody>
+  </table>
+</div>

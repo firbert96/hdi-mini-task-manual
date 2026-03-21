@@ -1,7 +1,6 @@
 # HDI Mini Task
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
-using [Angular Material](https://material.angular.io/) version 21.2.2.
 using tailwindcss version 3.3.3.
 
 this project made by hand.
