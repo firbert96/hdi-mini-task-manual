@@ -33,12 +33,18 @@ export class TransactionComponent implements OnInit, OnDestroy {
   displayedColumns = this.columns.map(c => c.key);
   sortKey: string = '';
   sortDir: 'asc' | 'desc' = 'asc';
+  cities = computed(() => [...new Set(this.data().map(r => r.city))].sort());
+  categories = computed(() => [...new Set(this.data().map(r => r.category))].sort());
   searchName = signal('');
   selectedStatus = signal('');
+  selectedCity = signal('');
+  selectedCategory = signal('');
   filteredData = computed(() =>
     this.data().filter(row =>
       (!this.searchName() || row.memberName.toLowerCase().includes(this.searchName().toLowerCase())) &&
-      (!this.selectedStatus() || row.status === this.selectedStatus())
+      (!this.selectedStatus() || row.status === this.selectedStatus()) &&
+      (!this.selectedCity() || row.city === this.selectedCity()) &&
+      (!this.selectedCategory() || row.category === this.selectedCategory())
     )
   );
 
@@ -90,6 +96,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
   clearFilters(): void {
     this.searchName.set('');
     this.selectedStatus.set('');
+    this.selectedCity.set('');
+    this.selectedCategory.set('');
   }
 
 

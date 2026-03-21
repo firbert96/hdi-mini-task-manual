@@ -11,6 +11,24 @@
     />
   </div>
   <select
+    [ngModel]="selectedCity()"
+    (ngModelChange)="selectedCity.set($event)"
+    class="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+    <option value="">All Cities</option>
+    @for (city of cities(); track city) {
+      <option [value]="city">{{ city }}</option>
+    }
+  </select>
+  <select
+    [ngModel]="selectedCategory()"
+    (ngModelChange)="selectedCategory.set($event)"
+    class="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+    <option value="">All Categories</option>
+    @for (cat of categories(); track cat) {
+      <option [value]="cat">{{ cat }}</option>
+    }
+  </select>
+  <select
     [ngModel]="selectedStatus()"
     (ngModelChange)="selectedStatus.set($event)"
     class="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
@@ -20,6 +38,17 @@
     <option value="cancelled">Cancelled</option>
     <option value="refunded">Refunded</option>
   </select>
+  @if (
+    searchName() !== '' ||
+    selectedStatus() !== '' ||
+    selectedCity() !== '' ||
+    selectedCategory() !== ''
+  ) {
+    <button (click)="clearFilters()" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      Clear
+    </button>
+  }
+
 </div>
 
 <!-- List -->
