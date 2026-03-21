@@ -1,5 +1,41 @@
+  <!-- Sumnmary -->
+  <div class="flex flex-row">
+    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Total Transaction</div>
+        <p class="text-gray-700 text-base" >
+          {{ summaryTotalTx }}
+        </p>
+      </div>
+    </div>
+    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Total Amount by Paid</div>
+        <p class="text-gray-700 text-base">
+          {{ summaryTotalAmtTxPaid }}
+        </p>
+      </div>
+    </div>
+    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Total Quantity by Paid</div>
+        <p class="text-gray-700 text-base">
+          {{ summaryTotalQtyTxPaid }}
+        </p>
+      </div>
+    </div>
+    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1">
+      <div class="px-6 py-4">
+        <div class="font-bold text-xl mb-2">Top Category by status Paid</div>
+        <p class="text-gray-700 text-base">
+          {{ summaryTopCategoryPaid }}
+        </p>
+      </div>
+    </div>
+  </div>
+
 <!-- Filter -->
- <div class="flex gap-3 mb-4">
+ <div class="flex gap-3 my-4">
   <div class="relative flex-1">
     <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
     <input

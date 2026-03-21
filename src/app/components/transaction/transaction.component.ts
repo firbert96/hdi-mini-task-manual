@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { TransactionService } from '../../services/transaction.service';
 import { TransactionModel } from '../../models/transaction.model';
 import { Subscription } from 'rxjs';
@@ -21,14 +21,46 @@ export class TransactionComponent implements OnInit, OnDestroy {
   data = signal<TransactionModel[]>([]);
   loading = true;
   columns = [
-    { key: 'no',         label: 'No.',         align: 'center' },
-    { key: 'memberName', label: 'Member Name', align: 'left' },
-    { key: 'city',       label: 'City',        align: 'left' },
-    { key: 'category',   label: 'Category',    align: 'left' },
-    { key: 'amount',     label: 'Amount',      align: 'left' },
-    { key: 'quantity',   label: 'Quantity',    align: 'center' },
-    { key: 'date',       label: 'Date',        align: 'center' },
-    { key: 'status',     label: 'Status',      align: 'left' },
+    {
+      key: 'no',
+      label: 'No.',
+      align: 'center'
+    },
+    {
+      key: 'memberName',
+      label: 'Member Name',
+      align: 'left'
+    },
+    {
+      key: 'city',
+      label: 'City',
+      align: 'left'
+    },
+    {
+      key: 'category',
+      label: 'Category',
+      align: 'left'
+    },
+    {
+      key: 'amountStr',
+      abel: 'Amount',
+      align: 'left'
+    },
+    {
+      key: 'quantity',
+      label: 'Quantity',
+      align: 'center'
+    },
+    {
+      key: 'fmtDate',
+      label: 'Date',
+      align: 'center'
+    },
+    {
+      key: 'status',
+      label: 'Status',
+      align: 'left'
+    },
   ];
   displayedColumns = this.columns.map(c => c.key);
   sortKey: string = '';
@@ -49,7 +81,20 @@ export class TransactionComponent implements OnInit, OnDestroy {
       (!this.selectedCategory() || row.category === this.selectedCategory())
     )
   );
+  summaryTotalTx = '';
+  summaryTotalAmtTxPaid = '';
+  summaryTotalQtyTxPaid = '';
+  summaryTopCategoryPaid = '';
 
+  constructor() {
+    effect(() => {
+      this.searchName();
+      this.selectedStatus();
+      this.selectedCity();
+      this.selectedCategory();
+      this.summary();
+    });
+  }
 
   ngOnInit(): void {
     this.getList();
@@ -61,8 +106,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
         next: (data: TransactionModel[]) => {
           const output: TransactionModel[] = data.map((item) => ({
             ...item,
-            date: moment(item.date).format('D MMMM YYYY'),
-            amount: this.currencyPipe.transform(item.amount, 'IDR', 'symbol', '1.0-0', 'id-ID') as any,
+            fmtDate: moment(item.date).format('D MMMM YYYY'),
+            amountStr: String(this.currencyPipe.transform(item.amount, 'IDR', 'symbol', '1.0-0', 'id-ID')),
           }));
           this.data.set(output);
         },
@@ -100,8 +145,26 @@ export class TransactionComponent implements OnInit, OnDestroy {
     this.selectedStatus.set('');
     this.selectedCity.set('');
     this.selectedCategory.set('');
+    this.summary();
   }
 
+  summary(): void {
+    this.summaryTotalTx = String(this.filteredData().length);
+    const paidTx: TransactionModel[] = this.filteredData().filter(tx => tx.status === 'paid');
+    let totalAmtTxPaid = 0;
+    let totalQtyTxPaid = 0;
+    let categoryCount: { [category: string]: number } = {};
+    paidTx.forEach((item: TransactionModel) => {
+      totalAmtTxPaid += item.amount as number;
+      totalQtyTxPaid += item.quantity;
+      categoryCount[item.category] = (categoryCount[item.category] ?? 0) + 1;
+    });
+    this.summaryTotalAmtTxPaid = String(this.currencyPipe.transform(totalAmtTxPaid, 'IDR', 'symbol', '1.0-0', 'id-ID')),
+    this.summaryTotalQtyTxPaid = String(totalQtyTxPaid);
+    this.summaryTopCategoryPaid = Object.entries(categoryCount)
+      .sort((a, b) => b[1] - a[1])
+      [0]?.[0] ?? '-';
+  }
 
   ngOnDestroy(): void {
     this.subscription.forEach((s) => s.unsubscribe());
