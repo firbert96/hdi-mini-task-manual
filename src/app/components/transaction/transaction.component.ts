@@ -21,6 +21,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<TransactionModel>();
   loading = true;
   columns = [
+    { key: 'no',         label: 'No.',         align: 'center' },
     { key: 'memberName', label: 'Member Name', align: 'left' },
     { key: 'city',       label: 'City',        align: 'left' },
     { key: 'category',   label: 'Category',    align: 'left' },
@@ -29,7 +30,6 @@ export class TransactionComponent implements OnInit, OnDestroy {
     { key: 'date',       label: 'Date',        align: 'center' },
     { key: 'status',     label: 'Status',      align: 'left' },
   ];
-
   displayedColumns = this.columns.map(c => c.key);
 
   ngOnInit(): void {

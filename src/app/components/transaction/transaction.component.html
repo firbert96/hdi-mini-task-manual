@@ -2,7 +2,12 @@
   @for (col of columns; track col.key) {
     <ng-container [matColumnDef]="col.key">
       <th mat-header-cell *matHeaderCellDef [style.text-align]="col.align">{{ col.label }}</th>
-      @if (col.key === 'status') {
+      @if (col.key === 'no') {
+        <td mat-cell *matCellDef="let row; let i = index" [style.text-align]="col.align">
+          {{ i + 1 }}
+        </td>
+      }
+      @else if (col.key === 'status') {
         <td mat-cell *matCellDef="let row" [style.text-align]="col.align">
           <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ring-1" [ngClass]="{
               'bg-green-100 text-green-700 ring-green-600/10': row.status === 'paid',
