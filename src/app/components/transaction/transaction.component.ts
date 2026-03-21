@@ -93,6 +93,9 @@ export class TransactionComponent implements OnInit, OnDestroy {
   summaryTotalAmtTxPaid = '';
   summaryTotalQtyTxPaid = '';
   summaryTopCategoryPaid = '';
+  paidAmountByCity: { [city: string]: number } = {};
+  txCountByStatus: { [status: string]: number } = {};
+  paidQuantityByCategory: { [category: string]: number } = {};
 
   constructor() {
     effect(() => {
@@ -118,6 +121,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
     this.subscription.push(
       this.txService.getList().subscribe({
         next: (data: TransactionModel[]) => {
+          this.smallTask(data);
           const output: TransactionModel[] = data.map((item) => ({
             ...item,
             fmtDate: moment(item.date).format('D MMMM YYYY'),
@@ -133,6 +137,17 @@ export class TransactionComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  smallTask(data: TransactionModel[]): void {
+    const paidTx: TransactionModel[] = data.filter(tx => tx.status === 'paid');
+    paidTx.forEach((item: TransactionModel) => {
+      this.paidAmountByCity[item.city] = (this.paidAmountByCity[item.city] ?? 0) + item.amount;
+      this.paidQuantityByCategory[item.category] = (this.paidQuantityByCategory[item.category] ?? 0) + item.quantity;
+    });
+    data.forEach((item: TransactionModel) => {
+      this.txCountByStatus[item.status] = (this.txCountByStatus[item.status] ?? 0) + 1;
+    });
   }
 
   sort(key: string): void {

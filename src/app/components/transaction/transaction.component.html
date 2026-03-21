@@ -1,7 +1,66 @@
 <!-- Small task -->
+<div class="flex flex-row mb-4">
+  <div class="flex-1">
+    <div class="font-bold text-xl mb-4 w-100">Paid amount by city</div>
+    <table class="divide-y divide-gray-200 bg-white text-sm w-100">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase text-xs">City</th>
+          <th class="px-4 py-3 text-center font-semibold text-gray-600 uppercase text-xs">Amount</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        @for (entry of paidAmountByCity | keyvalue; track entry.key) {
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 text-gray-700">{{ entry.key | titlecase }}</td>
+            <td class="px-4 py-3 text-center text-gray-700">{{ entry.value | currency:'IDR':'symbol':'1.0-0':'id-ID' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-1">
+    <div class="font-bold text-xl mb-4 w-100">Transaction count by status</div>
+    <table class="divide-y divide-gray-200 bg-white text-sm w-100">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase text-xs">Status</th>
+          <th class="px-4 py-3 text-center font-semibold text-gray-600 uppercase text-xs">Count</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        @for (entry of txCountByStatus | keyvalue; track entry.key) {
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 text-gray-700">{{ entry.key | titlecase }}</td>
+            <td class="px-4 py-3 text-center text-gray-700">{{ entry.value }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="flex-1">
+    <div class="font-bold text-xl mb-4 w-100">Paid quantity by category</div>
+    <table class="divide-y divide-gray-200 bg-white text-sm w-100">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left font-semibold text-gray-600 uppercase text-xs">Category</th>
+          <th class="px-4 py-3 text-center font-semibold text-gray-600 uppercase text-xs">Qty</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        @for (entry of paidQuantityByCategory | keyvalue; track entry.key) {
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 text-gray-700">{{ entry.key | titlecase }}</td>
+            <td class="px-4 py-3 text-center text-gray-700">{{ entry.value }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
 
 <!-- Summary -->
-<div class="flex flex-row gap-4">
+<div class="flex flex-row gap-4 mb-4">
   <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1" [class.summary-highlight]="summaryHighlight()">
     <div class="px-6 py-4">
       <div class="font-bold text-xl mb-2">Total Transaction</div>
@@ -37,56 +96,55 @@
 </div>
 
 <!-- Filter -->
-<div class="flex gap-3 my-4">
-<div class="relative flex-1">
-  <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
-  <input
-    type="text"
-    placeholder="Search name"
-    [ngModel]="searchName()"
-    (ngModelChange)="searchName.set($event)"
-    class="w-full pl-9 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-  />
-</div>
-<select
-  [ngModel]="selectedCity()"
-  (ngModelChange)="selectedCity.set($event)"
-  class="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-  <option value="">All Cities</option>
-  @for (city of cities(); track city) {
-    <option [value]="city">{{ city }}</option>
+<div class="flex gap-3 mb-4">
+  <div class="relative flex-1">
+    <span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">search</span>
+    <input
+      type="text"
+      placeholder="Search name"
+      [ngModel]="searchName()"
+      (ngModelChange)="searchName.set($event)"
+      class="w-full pl-9 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+    />
+  </div>
+  <select
+    [ngModel]="selectedCity()"
+    (ngModelChange)="selectedCity.set($event)"
+    class="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+    <option value="">All Cities</option>
+    @for (city of cities(); track city) {
+      <option [value]="city">{{ city }}</option>
+    }
+  </select>
+  <select
+    [ngModel]="selectedCategory()"
+    (ngModelChange)="selectedCategory.set($event)"
+    class="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+    <option value="">All Categories</option>
+    @for (cat of categories(); track cat) {
+      <option [value]="cat">{{ cat }}</option>
+    }
+  </select>
+  <select
+    [ngModel]="selectedStatus()"
+    (ngModelChange)="selectedStatus.set($event)"
+    class="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+    <option value="">All Status</option>
+    <option value="paid">Paid</option>
+    <option value="pending">Pending</option>
+    <option value="cancelled">Cancelled</option>
+    <option value="refunded">Refunded</option>
+  </select>
+  @if (
+    searchName() !== '' ||
+    selectedStatus() !== '' ||
+    selectedCity() !== '' ||
+    selectedCategory() !== ''
+  ) {
+    <button (click)="clearFilters()" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      Clear
+    </button>
   }
-</select>
-<select
-  [ngModel]="selectedCategory()"
-  (ngModelChange)="selectedCategory.set($event)"
-  class="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-  <option value="">All Categories</option>
-  @for (cat of categories(); track cat) {
-    <option [value]="cat">{{ cat }}</option>
-  }
-</select>
-<select
-  [ngModel]="selectedStatus()"
-  (ngModelChange)="selectedStatus.set($event)"
-  class="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-  <option value="">All Status</option>
-  <option value="paid">Paid</option>
-  <option value="pending">Pending</option>
-  <option value="cancelled">Cancelled</option>
-  <option value="refunded">Refunded</option>
-</select>
-@if (
-  searchName() !== '' ||
-  selectedStatus() !== '' ||
-  selectedCity() !== '' ||
-  selectedCategory() !== ''
-) {
-  <button (click)="clearFilters()" class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-    Clear
-  </button>
-}
-
 </div>
 
 <!-- List -->
