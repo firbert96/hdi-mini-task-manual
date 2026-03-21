@@ -122,11 +122,11 @@
         }
       } @else {
         @if (filteredData().length > 0) {
-          @for (row of filteredData(); track row.id; let i = $index) {
+          @for (row of paginatedData(); track row.id; let i = $index) {
             <tr class="hover:bg-gray-50 transition-colors">
               @for (col of columns; track col.key) {
                 @if (col.key === 'no') {
-                  <td class="px-4 py-3 text-gray-500" [style.text-align]="col.align">{{ i + 1 }}</td>
+                  <td class="px-4 py-3 text-gray-500" [style.text-align]="col.align">{{ (currentPage() - 1) * pageSize() + i + 1 }}</td>
                 } @else if (col.key === 'status') {
                   <td class="px-4 py-3" [style.text-align]="col.align">
                     <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ring-1"
@@ -156,4 +156,42 @@
       }
     </tbody>
   </table>
+
+  <!-- Pagination -->
+  <div class="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 text-sm text-gray-600">
+    <div class="flex items-center gap-2">
+      <span>Rows per page:</span>
+      <select
+        [ngModel]="pageSize()"
+        (ngModelChange)="pageSize.set(+$event)"
+        class="px-2 py-1 rounded border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+        @for (opt of pageSizeOptions; track opt) {
+          <option [value]="opt">{{ opt }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="flex items-center gap-1">
+      <span class="mr-3">
+        {{ (currentPage() - 1) * pageSize() + 1 }}–{{ pageEnd }} of {{ filteredData().length }}
+      </span>
+      <button (click)="setPage(1)" [disabled]="currentPage() === 1"
+        class="px-2 py-1 rounded border border-gray-300 disabled:opacity-40 hover:bg-gray-100">
+        <span class="material-icons text-sm">first_page</span>
+      </button>
+      <button (click)="setPage(currentPage() - 1)" [disabled]="currentPage() === 1"
+        class="px-2 py-1 rounded border border-gray-300 disabled:opacity-40 hover:bg-gray-100">
+        <span class="material-icons text-sm">chevron_left</span>
+      </button>
+      <button (click)="setPage(currentPage() + 1)" [disabled]="currentPage() === totalPages()"
+        class="px-2 py-1 rounded border border-gray-300 disabled:opacity-40 hover:bg-gray-100">
+        <span class="material-icons text-sm">chevron_right</span>
+      </button>
+      <button (click)="setPage(totalPages())" [disabled]="currentPage() === totalPages()"
+        class="px-2 py-1 rounded border border-gray-300 disabled:opacity-40 hover:bg-gray-100">
+        <span class="material-icons text-sm">last_page</span>
+      </button>
+    </div>
+  </div>
 </div>
+

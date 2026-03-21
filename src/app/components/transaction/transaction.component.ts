@@ -67,8 +67,16 @@ export class TransactionComponent implements OnInit, OnDestroy {
   sortDir: 'asc' | 'desc' = 'asc';
   cities = computed(() => [...new Set(this.data().map(r => r.city))].sort());
   categories = computed(() => [...new Set(this.data().map(r => r.category))].sort());
-  pagePerItems = 5;
-  skeletonRows = Array(this.pagePerItems);
+  // replace existing pagePerItems
+  pageSizeOptions = [5, 10, 15];
+  pageSize = signal(5);
+  currentPage = signal(1);
+  skeletonRows = Array(5);
+  totalPages = computed(() => Math.ceil(this.filteredData().length / this.pageSize()));
+  paginatedData = computed(() => {
+    const start = (this.currentPage() - 1) * this.pageSize();
+    return this.filteredData().slice(start, start + this.pageSize());
+  });
   searchName = signal('');
   selectedStatus = signal('');
   selectedCity = signal('');
@@ -92,8 +100,14 @@ export class TransactionComponent implements OnInit, OnDestroy {
       this.selectedStatus();
       this.selectedCity();
       this.selectedCategory();
+      this.pageSize();
+      this.currentPage.set(1);
       this.summary();
     });
+  }
+
+  get pageEnd(): number {
+    return Math.min(this.currentPage() * this.pageSize(), this.filteredData().length);
   }
 
   ngOnInit(): void {
@@ -164,6 +178,12 @@ export class TransactionComponent implements OnInit, OnDestroy {
     this.summaryTopCategoryPaid = Object.entries(categoryCount)
       .sort((a, b) => b[1] - a[1])
       [0]?.[0] ?? '-';
+  }
+
+  setPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages()) {
+      this.currentPage.set(page);
+    }
   }
 
   ngOnDestroy(): void {
