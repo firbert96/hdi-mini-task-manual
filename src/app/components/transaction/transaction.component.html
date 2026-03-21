@@ -1,6 +1,6 @@
   <!-- Sumnmary -->
-  <div class="flex flex-row">
-    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1">
+  <div class="flex flex-row gap-4">
+    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1" [class.summary-highlight]="summaryHighlight()">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">Total Transaction</div>
         <p class="text-gray-700 text-base" >
@@ -8,26 +8,26 @@
         </p>
       </div>
     </div>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1">
+    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1" [class.summary-highlight]="summaryHighlight()">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">Total Amount by Paid</div>
-        <p class="text-gray-700 text-base">
+        <p class="text-gray-700 text-base" >
           {{ summaryTotalAmtTxPaid }}
         </p>
       </div>
     </div>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1">
+    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1" [class.summary-highlight]="summaryHighlight()">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">Total Quantity by Paid</div>
-        <p class="text-gray-700 text-base">
+        <p class="text-gray-700 text-base" >
           {{ summaryTotalQtyTxPaid }}
         </p>
       </div>
     </div>
-    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1">
+    <div class="max-w-sm rounded overflow-hidden shadow-lg flex-1" [class.summary-highlight]="summaryHighlight()">
       <div class="px-6 py-4">
         <div class="font-bold text-xl mb-2">Top Category by status Paid</div>
-        <p class="text-gray-700 text-base">
+        <p class="text-gray-700 text-base" >
           {{ summaryTopCategoryPaid }}
         </p>
       </div>

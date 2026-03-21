@@ -1,0 +1,8 @@
+.summary-highlight {
+  animation: flash 1s ease;
+}
+
+@keyframes flash {
+  0%   { background-color: #dbeafe; border-radius: 4px; }
+  100% { background-color: transparent; }
+}
