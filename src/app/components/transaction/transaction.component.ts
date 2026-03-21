@@ -35,6 +35,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
   sortDir: 'asc' | 'desc' = 'asc';
   cities = computed(() => [...new Set(this.data().map(r => r.city))].sort());
   categories = computed(() => [...new Set(this.data().map(r => r.category))].sort());
+  pagePerItems = 5;
+  skeletonRows = Array(this.pagePerItems);
   searchName = signal('');
   selectedStatus = signal('');
   selectedCity = signal('');

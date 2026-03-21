@@ -73,28 +73,50 @@
       </tr>
     </thead>
     <tbody class="divide-y divide-gray-100">
-      @for (row of filteredData(); track row.id; let i = $index) {
-        <tr class="hover:bg-gray-50 transition-colors">
-          @for (col of columns; track col.key) {
-            @if (col.key === 'no') {
-              <td class="px-4 py-3 text-gray-500" [style.text-align]="col.align">{{ i + 1 }}</td>
-            } @else if (col.key === 'status') {
-              <td class="px-4 py-3" [style.text-align]="col.align">
-                <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ring-1"
-                  [ngClass]="{
-                    'bg-green-100 text-green-700 ring-green-600/10': row.status === 'paid',
-                    'bg-red-100 text-red-700 ring-red-600/10': row.status === 'cancelled',
-                    'bg-yellow-50 text-yellow-600 ring-yellow-500/10': row.status === 'pending',
-                    'bg-gray-50 text-gray-600 ring-gray-500/10': row.status === 'refunded'
-                  }">
-                  {{ row[col.key] | titlecase }}
-                </span>
+            @if (loading) {
+        <!-- Skeleton rows -->
+        @for (row of skeletonRows; track $index) {
+          <tr>
+            @for (col of columns; track col.key) {
+              <td class="px-4 py-3">
+                <div class="h-4 bg-gray-200 rounded animate-pulse"></div>
               </td>
-            } @else {
-              <td class="px-4 py-3 text-gray-700" [style.text-align]="col.align">{{ $any(row)[col.key] }}</td>
             }
+          </tr>
+        }
+      } @else {
+        @if (filteredData().length > 0) {
+          @for (row of filteredData(); track row.id; let i = $index) {
+            <tr class="hover:bg-gray-50 transition-colors">
+              @for (col of columns; track col.key) {
+                @if (col.key === 'no') {
+                  <td class="px-4 py-3 text-gray-500" [style.text-align]="col.align">{{ i + 1 }}</td>
+                } @else if (col.key === 'status') {
+                  <td class="px-4 py-3" [style.text-align]="col.align">
+                    <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium ring-1"
+                      [ngClass]="{
+                        'bg-green-100 text-green-700 ring-green-600/10': row.status === 'paid',
+                        'bg-red-100 text-red-700 ring-red-600/10': row.status === 'cancelled',
+                        'bg-yellow-50 text-yellow-600 ring-yellow-500/10': row.status === 'pending',
+                        'bg-gray-50 text-gray-600 ring-gray-500/10': row.status === 'refunded'
+                      }">
+                      {{ row[col.key] | titlecase }}
+                    </span>
+                  </td>
+                } @else {
+                  <td class="px-4 py-3 text-gray-700" [style.text-align]="col.align">{{ $any(row)[col.key] }}</td>
+                }
+              }
+            </tr>
           }
-        </tr>
+        } @else {
+          <tr>
+            <td [colSpan]="columns.length" class="px-4 py-8 text-center text-gray-400">
+              <span class="material-icons text-2xl">inbox</span>
+              <span class="text-2xl"> No data found </span>
+            </td>
+          </tr>
+        }
       }
     </tbody>
   </table>
