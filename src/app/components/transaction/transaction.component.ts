@@ -5,16 +5,18 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import moment from 'moment';
-import { NgFor } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 @Component({
   selector: 'app-transaction',
   standalone: true,
-  imports: [MatTableModule, NgFor],
+  imports: [MatTableModule, CommonModule],
   templateUrl: './transaction.component.html',
   styleUrl: './transaction.component.css',
+  providers: [CurrencyPipe],
 })
 export class TransactionComponent implements OnInit, OnDestroy {
   private readonly txService = inject(TransactionService);
+  private readonly currencyPipe = inject(CurrencyPipe);
   private readonly subscription: Subscription[] = [];
   dataSource = new MatTableDataSource<TransactionModel>();
   loading = true;
@@ -22,7 +24,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
     { key: 'memberName', label: 'Member Name', align: 'left' },
     { key: 'city',       label: 'City',        align: 'left' },
     { key: 'category',   label: 'Category',    align: 'left' },
-    { key: 'amount',     label: 'Amount',      align: 'right' },
+    { key: 'amount',     label: 'Amount',      align: 'left' },
     { key: 'quantity',   label: 'Quantity',    align: 'center' },
     { key: 'date',       label: 'Date',        align: 'center' },
     { key: 'status',     label: 'Status',      align: 'left' },
@@ -41,7 +43,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
           const output: TransactionModel[] = data.map((item) => ({
             ...item,
             date: moment(item.date).format('D MMMM YYYY'),
-
+            amount: this.currencyPipe.transform(item.amount, 'IDR', 'symbol', '1.0-0', 'id-ID') as any,
           }));
           this.dataSource.data = output;
         },
