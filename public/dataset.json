@@ -1,0 +1,167 @@
+[
+  {
+    "id": "TX001",
+    "memberId": "MB001",
+    "memberName": "Andi",
+    "city": "Jakarta",
+    "category": "Supplement",
+    "amount": 250000,
+    "quantity": 2,
+    "date": "2026-02-01",
+    "status": "paid"
+  },
+  {
+    "id": "TX002",
+    "memberId": "MB002",
+    "memberName": "Budi",
+    "city": "Bandung",
+    "category": "Personal Care",
+    "amount": 175000,
+    "quantity": 1,
+    "date": "2026-02-03",
+    "status": "paid"
+  },
+  {
+    "id": "TX003",
+    "memberId": "MB003",
+    "memberName": "Citra",
+    "city": "Surabaya",
+    "category": "Home Care",
+    "amount": 320000,
+    "quantity": 4,
+    "date": "2026-02-03",
+    "status": "cancelled"
+  },
+  {
+    "id": "TX004",
+    "memberId": "MB001",
+    "memberName": "Andi",
+    "city": "Jakarta",
+    "category": "Supplement",
+    "amount": 125000,
+    "quantity": 1,
+    "date": "2026-02-05",
+    "status": "paid"
+  },
+  {
+    "id": "TX005",
+    "memberId": "MB004",
+    "memberName": "Dewi",
+    "city": "Medan",
+    "category": "Personal Care",
+    "amount": 210000,
+    "quantity": 2,
+    "date": "2026-02-06",
+    "status": "pending"
+  },
+  {
+    "id": "TX006",
+    "memberId": "MB005",
+    "memberName": "Eko",
+    "city": "Jakarta",
+    "category": "Home Care",
+    "amount": 410000,
+    "quantity": 3,
+    "date": "2026-02-06",
+    "status": "paid"
+  },
+  {
+    "id": "TX007",
+    "memberId": "MB006",
+    "memberName": "Farah",
+    "city": "Semarang",
+    "category": "Supplement",
+    "amount": 275000,
+    "quantity": 2,
+    "date": "2026-02-07",
+    "status": "paid"
+  },
+  {
+    "id": "TX008",
+    "memberId": "MB002",
+    "memberName": "Budi",
+    "city": "Bandung",
+    "category": "Supplement",
+    "amount": 150000,
+    "quantity": 1,
+    "date": "2026-02-08",
+    "status": "refunded"
+  },
+  {
+    "id": "TX009",
+    "memberId": "MB007",
+    "memberName": "Gina",
+    "city": "Yogyakarta",
+    "category": "Personal Care",
+    "amount": 190000,
+    "quantity": 2,
+    "date": "2026-02-09",
+    "status": "paid"
+  },
+  {
+    "id": "TX010",
+    "memberId": "MB008",
+    "memberName": "Hadi",
+    "city": "Jakarta",
+    "category": "Home Care",
+    "amount": 330000,
+    "quantity": 2,
+    "date": "2026-02-10",
+    "status": "pending"
+  },
+  {
+    "id": "TX011",
+    "memberId": "MB009",
+    "memberName": "Intan",
+    "city": "Surabaya",
+    "category": "Supplement",
+    "amount": 285000,
+    "quantity": 3,
+    "date": "2026-02-10",
+    "status": "paid"
+  },
+  {
+    "id": "TX012",
+    "memberId": "MB010",
+    "memberName": "Joko",
+    "city": "Bandung",
+    "category": "Personal Care",
+    "amount": 160000,
+    "quantity": 1,
+    "date": "2026-02-11",
+    "status": "paid"
+  },
+  {
+    "id": "TX013",
+    "memberId": "MB003",
+    "memberName": "Citra",
+    "city": "Surabaya",
+    "category": "Supplement",
+    "amount": 220000,
+    "quantity": 2,
+    "date": "2026-02-12",
+    "status": "paid"
+  },
+  {
+    "id": "TX014",
+    "memberId": "MB011",
+    "memberName": "Kiki",
+    "city": "Medan",
+    "category": "Home Care",
+    "amount": 360000,
+    "quantity": 3,
+    "date": "2026-02-12",
+    "status": "paid"
+  },
+  {
+    "id": "TX015",
+    "memberId": "MB012",
+    "memberName": "Lina",
+    "city": "Jakarta",
+    "category": "Personal Care",
+    "amount": 145000,
+    "quantity": 1,
+    "date": "2026-02-13",
+    "status": "cancelled"
+  }
+]

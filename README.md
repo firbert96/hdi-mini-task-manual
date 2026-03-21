@@ -24,11 +24,26 @@ To start a local development server, run:
 ng serve
 ```
 
+or
+
 ```bash
 npm start
 ```
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Development server
+Build it First
+
+```bash
+npm run build:prod
+```
+
+and serve it with
+
+```bash
+npm run prod
+```
 
 ## Code scaffolding
 
